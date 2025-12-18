@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <link rel="stylesheet" href='/static/style.css' />
+    </head>
+    <body>
+        <h3>Bottoni</h3>
+        <form method="post" action="/">
+            <input type="submit" value="w" name="forward">
+            <input type="submit" value="a" name="left">
+            <input type="submit" value="s" name="backward">
+            <input type="submit" value="d" name="right">
+            <input type="submit" value="stop" name="stop">
+        </form>
+
+        <div class="dataSensors"></div>
+
+        <script>
+            dataSensors = document.querySelector(".dataSensors")
+
+            async function getSensors() {
+                response = await fetch("/api/v1/sensors")
+                data = await response.json()
+                console.log('Sensori:', data);
+                
+                left = document.createElement("p")
+                left.textContent = "left: " + data.left
+                right = document.createElement("p")
+                right.textContent = "right: "+ data.right
+                dataSensors.innerHTML = ""
+                dataSensors.appendChild(left)
+                dataSensors.appendChild(right)
+            }
+
+            setInterval(getSensors, 1000);
+        </script>
+    </body>
+</html>
