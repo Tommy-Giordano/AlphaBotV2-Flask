@@ -1,8 +1,18 @@
 import sqlite3
 import AlphaBot
 from flask import Flask, render_template, request, jsonify
+from flask_login import(
+    LoginManager, UserMixin,
+    login_user, login_required,
+    logout_user, current_uesr
+)
 
 app = Flask(__name__)
+app.secret_key = "SKIBIDI67"
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
 def requestDB(dbName, act):
     con = sqlite3.connect(dbName)
@@ -29,28 +39,38 @@ def getSensors():
 
     return jsonify(sensors)
 
-@app.route("/", methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        if request.form.get('forward') == 'w':
+@app.route("/api/v1/stopMotors")
+def stopMotors():
+    act = "stop"
+    actt = requestDB("robot.db", act)
+    getattr(ab, actt[0])()  
+    # state = act
+    return render_template("index.html")
+
+
+@app.route("/move")
+def move():
+    data = request.args.get("data")
+    print("DAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + data)
+    act = "stop"
+    if(data):
+        if data == 'w':
             print("wwwwwwwwwwwwwwwwwww")
             act = "w"
-        elif  request.form.get('backward') == 's':
+        elif data == 's':
             print("ssssssssssssssssssss")
             act = "s"
-        elif  request.form.get('left') == 'a':
+        elif data == 'a':
             print("aaaaaaaaaaaaaaaaaaaa")
             act = "a"
-        elif  request.form.get('right') == 'd':
+        elif data == 'd':
             print("dddddddddddddddddddd")
             act = "d"
-        elif  request.form.get('stop') == 'stop':
+        elif data == 'stop':
             print("STOPPPPPPPPPPPP")
             act = "stop"
         else:
             print("Unknown")
-    elif request.method == 'GET':
-        return render_template('index.html')
     
     nextActions = requestDB("robot.db", act)
     for i in range(0, len(nextActions), 2):
@@ -61,7 +81,10 @@ def index():
         else:
             getattr(ab,nact)(float(params))
     # state = act
+    return render_template("index.html")
 
+@app.route("/")
+def index():
     return render_template("index.html")
 
 if __name__ == '__main__':

@@ -4,18 +4,39 @@
     </head>
     <body>
         <h3>Bottoni</h3>
-        <form method="post" action="/">
-            <input type="submit" value="w" name="forward">
-            <input type="submit" value="a" name="left">
-            <input type="submit" value="s" name="backward">
-            <input type="submit" value="d" name="right">
-            <input type="submit" value="stop" name="stop">
-        </form>
+        <button value="w" name="forward">forward</button>
+        <button value="a" name="left">left</button>
+        <button value="s" name="backward">backward</button>
+        <button value="d" name="right">right</button>
+        <button value="stop" name="stop">stop</button>
 
         <div class="dataSensors"></div>
 
         <script>
+            buttons = document.querySelectorAll("button")
             dataSensors = document.querySelector(".dataSensors")
+
+            document.addEventListener("keydown", async (e) =>{
+                response = await fetch("/move?data=" + e.key) 
+                console.log("MI MUOVOOOOOOOOOOO")  
+            })
+
+            document.addEventListener("keyup", async (e) =>{
+                response = await fetch("/api/v1/stopMotors")  
+                console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")  
+            })
+
+
+            buttons.forEach(b => {
+                b.addEventListener("mousedown", async () => {
+                    response = await fetch("/move?data=" + b.value)  
+                    console.log("MI MUOVOOOOOOOOOOO")  
+                })
+                b.addEventListener("mouseup", async () => {
+                    response = await fetch("/api/v1/stopMotors")  
+                    console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")  
+                })
+            });
 
             async function getSensors() {
                 response = await fetch("/api/v1/sensors")
@@ -31,7 +52,7 @@
                 dataSensors.appendChild(right)
             }
 
-            setInterval(getSensors, 1000);
+            // setInterval(getSensors, 1000);
         </script>
     </body>
 </html>
