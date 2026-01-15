@@ -32,6 +32,7 @@
                     response = await fetch("/move?data=" + b.value)  
                     console.log("MI MUOVOOOOOOOOOOO")  
                 })
+                
                 b.addEventListener("mouseup", async () => {
                     response = await fetch("/api/v1/stopMotors")  
                     console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")  
