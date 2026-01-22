@@ -91,17 +91,18 @@ def requestDB(dbName, act):
     return (data[0])[0].split("|")
 
 
-actions = ["w", "a", "s", "d", "q", "e", "stop", "r"]
+actions = ["w", "a", "s", "d", "wa", "wd", "sa", "sd", "q", "e", "stop", "r"]
 
-# chill = True
 # 
-# ab = None
 
-# if(chill):
+chill = True
+ab = None
+
     
-ab = AlphaBot.ChillBot()
-# else:
-# ab = AlphaBot.AlphaBot()
+if(chill):
+    ab = AlphaBot.ChillBot()
+else:
+    ab = AlphaBot.AlphaBot()
 
 act = "stop"
 state = ""
@@ -113,6 +114,11 @@ def getSensors():
     sensors["right"] = ab.getSensors()[1]
 
     return jsonify(sensors)
+
+@app.route("/api/v1/dbCommand")
+def dbCommand():
+    data = request.args.get("data")
+    print(data)
 
 @app.route("/api/v1/stopMotors")
 def stopMotors():

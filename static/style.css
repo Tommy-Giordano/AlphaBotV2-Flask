@@ -1,4 +1,152 @@
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
 body {
-    background: red;
-    color: yellow;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #ffffff;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h3 {
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* ---- BUTTONS GENERIC ---- */
+button {
+    background: #2563eb;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin: 6px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 5px 0 #1e40af;
+    min-width: 90px;
+}
+
+button:hover {
+    background: #3b82f6;
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #1e40af;
+}
+
+/* ---- STOP BUTTON ---- */
+button[name="stop"] {
+    background: #dc2626;
+    box-shadow: 0 5px 0 #991b1b;
+}
+
+button[name="stop"]:hover {
+    background: #ef4444;
+}
+
+/* ---- SPEED BUTTONS ---- */
+button[name="speedPlus"],
+button[name="speedMinus"] {
+    background: #059669;
+    box-shadow: 0 5px 0 #065f46;
+}
+
+button[name="speedPlus"]:hover,
+button[name="speedMinus"]:hover {
+    background: #10b981;
+}
+
+/* ---- INPUT DB COMMAND ---- */
+#dbCommand {
+    margin-top: 10px;
+    width: 260px;
+    max-width: 90%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: #020617;
+    color: white;
+}
+
+#dbCommand::placeholder {
+    color: #94a3b8;
+}
+
+#sendDbCommand {
+    background: #7c3aed;
+    box-shadow: 0 5px 0 #5b21b6;
+}
+
+#sendDbCommand:hover {
+    background: #8b5cf6;
+}
+
+/* ---- SENSOR BOX ---- */
+.dataSensors {
+    margin-top: 20px;
+    background: #020617;
+    padding: 14px 18px;
+    border-radius: 14px;
+    width: 260px;
+    max-width: 90%;
+    text-align: left;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.dataSensors p {
+    margin: 6px 0;
+    color: #38bdf8;
+    font-weight: 500;
+}
+
+/* ---- MOBILE FRIENDLY ---- */
+@media (max-width: 500px) {
+    button {
+        min-width: 80px;
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    #dbCommand, .dataSensors {
+        width: 100%;
+    }
+}
+
+.direction-indicators {
+    display: grid;
+    grid-template-columns: repeat(3, 40px);
+    grid-template-rows: repeat(3, 40px);
+    gap: 6px;
+    margin-top: 20px;
+}
+
+.direction-indicators div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #020617;
+    border-radius: 8px;
+    color: #64748b;
+    font-size: 20px;
+}
+
+#dir-up { grid-column: 2; grid-row: 1; }
+#dir-left { grid-column: 1; grid-row: 2; }
+#dir-down { grid-column: 2; grid-row: 3; }
+#dir-right { grid-column: 3; grid-row: 2; }
+
+.direction-indicators .active {
+    background: #22c55e;
+    color: #022c22;
 }

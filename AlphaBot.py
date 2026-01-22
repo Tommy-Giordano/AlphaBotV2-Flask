@@ -138,6 +138,49 @@ class AlphaBot(object):
 		self.moving = True
 		# time.sleep(seconds)
 		# self.stop()
+
+				
+	def forwardLeft(self):
+		if not self.canMoveForward:
+			self.stop()
+			return
+		if self.moving:
+			return
+		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
+			return
+				
+		print("im moving forward TO THE LEFT")
+		self.setMotor(self.curvedSpeed[0], self.speed[1])
+		self.moving = True
+	
+	def forwardRight(self):
+		if not self.canMoveForward:
+			self.stop()
+			return
+		if self.moving:
+			return
+		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
+			return
+				
+		print("im moving forward TO THE RIGHT")
+		self.setMotor(self.speed[0], self.curvedSpeed[1])
+		self.moving = True
+	
+	def backwardLeft(self):
+		if self.moving:
+			return
+		print("im moving backward TO THE LEFT")
+		self.setMotor(-self.speed[0], -self.curvedSpeed[1])
+		self.moving = True
+	
+	def backwardRight(self):
+		if self.moving:
+			return
+		print("im moving backward TO THE RIGHT")
+		self.setMotor(-self.curvedSpeed[0], -self.speed[1])
+		self.moving = True
+		
+
 		
 	def setPWMA(self,value):
 		self.PWMA.ChangeDutyCycle(value)
@@ -188,9 +231,10 @@ class ChillBot(object):
 		self.DR = 16
   
 		self.speed = [50, 50]
+		self.curvedSpeed = [self.speed[0] * 0.75, self.speed[1] * 0.75]
   
-		GPIO.setmode(GPIO.BCM)
-		GPIO.setwarnings(False)
+		GPIO.setmode(GPIO.BOARD) #BOARD
+		GPIO.setwarnings(True)
 		GPIO.setup(self.IN1,GPIO.OUT)
 		GPIO.setup(self.IN2,GPIO.OUT)
 		GPIO.setup(self.IN3,GPIO.OUT)
@@ -226,25 +270,25 @@ class ChillBot(object):
 			self.stop()
 			return
 		print("im moving forward")
-		self.setMotor(-self.speed[0], self.speed[1])
+		self.setMotor(self.speed[0], self.speed[1])
 		time.sleep(seconds)
 		self.stop()
 	
 	def backwardTime(self, seconds = 0):
 		print("im moving forward")
-		self.setMotor(self.speed[0], -self.speed[1])
+		self.setMotor(-self.speed[0], -self.speed[1])
 		time.sleep(seconds)
 		self.stop()
 
 	def leftTime(self, seconds = 0):
 		print("im moving forward")
-		self.setMotor(-self.speed[0], -self.speed[1])
+		self.setMotor(-self.speed[0], self.speed[1])
 		time.sleep(seconds)
 		self.stop()
 
 	def rightTime(self, seconds = 0):
 		print("im moving forward")
-		self.setMotor(self.speed[0], self.speed[1])
+		self.setMotor(self.speed[0], -self.speed[1])
 		time.sleep(seconds)
 		self.stop()
 
@@ -252,62 +296,77 @@ class ChillBot(object):
 		if not self.canMoveForward:
 			self.stop()
 			return
-		
 		if self.moving:
 			return
-		
 		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
 			return
-		
+				
 		print("im moving forward")
-		# GPIO.output(self.IN1,GPIO.HIGH)
-		# GPIO.output(self.IN2,GPIO.LOW)
-		# GPIO.output(self.IN3,GPIO.LOW)
-		# GPIO.output(self.IN4,GPIO.HIGH)
-		self.setMotor(-self.speed[0], self.speed[1])
-		self.moving = True
-  		# time.sleep(seconds)
-		# self.stop()
-
-
-	def backward(self, seconds = 0):
-		if(self.moving):
-			return
-		print("im moving backward")
-		# GPIO.output(self.IN1,GPIO.LOW)
-		# GPIO.output(self.IN2,GPIO.HIGH)
-		# GPIO.output(self.IN3,GPIO.HIGH)
-		# GPIO.output(self.IN4,GPIO.LOW)
-		self.setMotor(self.speed[0], -self.speed[1])
-		self.moving = True
-		# time.sleep(seconds)
-		# self.stop()
-
-	def left(self, seconds = 0):
-		if(self.moving):
-			return
-		print("im moving left")
-		# GPIO.output(self.IN1,GPIO.LOW)
-		# GPIO.output(self.IN2,GPIO.LOW)
-		# GPIO.output(self.IN3,GPIO.LOW)
-		# GPIO.output(self.IN4,GPIO.HIGH)
-		self.setMotor(-self.speed[0], -self.speed[1])
-		self.moving = True
-  		# time.sleep(seconds)
-		# self.stop()
-
-	def right(self, seconds = 0):
-		if(self.moving):
-			return
-		print("im moving right")
-		# GPIO.output(self.IN1,GPIO.HIGH)
-		# GPIO.output(self.IN2,GPIO.LOW)
-		# GPIO.output(self.IN3,GPIO.LOW)
-		# GPIO.output(self.IN4,GPIO.LOW)
 		self.setMotor(self.speed[0], self.speed[1])
 		self.moving = True
-		# time.sleep(seconds)
-		# self.stop()
+  		
+
+	def backward(self, seconds = 0):
+		if self.moving:
+			return
+		print("im moving backward")
+		self.setMotor(-self.speed[0], -self.speed[1])
+		self.moving = True
+		
+
+	def left(self, seconds = 0):
+		if self.moving:
+			return
+		print("im moving left")
+		self.setMotor(-self.speed[0], self.speed[1])
+		self.moving = True
+  		
+	def right(self, seconds = 0):
+		if self.moving:
+			return
+		print("im moving right")
+		self.setMotor(self.speed[0], -self.speed[1])
+		self.moving = True
+		
+	def forwardLeft(self):
+		if not self.canMoveForward:
+			self.stop()
+			return
+		if self.moving:
+			return
+		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
+			return
+				
+		print("im moving forward TO THE LEFT")
+		self.setMotor(self.curvedSpeed[0], self.speed[1])
+		self.moving = True
+	
+	def forwardRight(self):
+		if not self.canMoveForward:
+			self.stop()
+			return
+		if self.moving:
+			return
+		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
+			return
+				
+		print("im moving forward TO THE RIGHT")
+		self.setMotor(self.speed[0], self.curvedSpeed[1])
+		self.moving = True
+	
+	def backwardLeft(self):
+		if self.moving:
+			return
+		print("im moving backward TO THE LEFT")
+		self.setMotor(-self.speed[0], -self.curvedSpeed[1])
+		self.moving = True
+	
+	def backwardRight(self):
+		if self.moving:
+			return
+		print("im moving backward TO THE RIGHT")
+		self.setMotor(-self.curvedSpeed[0], -self.speed[1])
+		self.moving = True
 		
 	def setPWMA(self,value):
 		self.PWMA.ChangeDutyCycle(value)
@@ -339,3 +398,5 @@ class ChillBot(object):
   
 		self.speed[0] = max(0, min(100, self.speed[0]))
 		self.speed[1] = max(0, min(100, self.speed[1]))
+
+		self.curvedSpeed = [self.speed[0] * 0.75, self.speed[1] * 0.75]

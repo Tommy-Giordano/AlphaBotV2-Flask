@@ -10,18 +10,81 @@
         <button value="d" name="right">right</button>
         <button value="stop" name="stop">stop</button>
 
+        <br><br>
+        <button value= "e" name="speedPlus">+speed</button>
+        <button value= "q" name="speedMinus">-speed</button>
+
+        
+        <br><br>
+        <input id="dbCommand" type="text" placeholder="Comando DB">
+        <button id="sendDbCommand">Invia comando</button>
+
+        <div class="direction-indicators">
+            <div id="dir-up">↑</div>
+            <div id="dir-left">←</div>
+            <div id="dir-down">↓</div>
+            <div id="dir-right">→</div>
+        </div>
+
+
         <div class="dataSensors"></div>
 
         <script>
+            const dirMap = {
+                w: "dir-up",
+                a: "dir-left",
+                s: "dir-down",
+                d: "dir-right"
+            };
+
+            keyPressed = {
+                "w" : false,
+                "s" : false,
+                "a" : false,
+                "d" : false,
+            }
+
+            function getKeyPressed(){
+                cmd = ""
+                for(k in keyPressed){
+                    if(keyPressed[k])
+                        cmd += k
+                }
+                console.log(cmd)
+                return cmd
+            }
+
+
+            document.addEventListener("keydown", (e) => {
+                const id = dirMap[e.key.toLowerCase()];
+                if (id) document.getElementById(id).classList.add("active");
+            });
+
+            document.addEventListener("keyup", (e) => {
+                const id = dirMap[e.key.toLowerCase()];
+                if (id) document.getElementById(id).classList.remove("active");
+            });
+
+
             buttons = document.querySelectorAll("button")
             dataSensors = document.querySelector(".dataSensors")
 
             document.addEventListener("keydown", async (e) =>{
-                response = await fetch("/move?data=" + e.key) 
+                if(e.key in keyPressed){
+                    keyPressed[e.key] = true
+                }
+                
+                cmd = getKeyPressed()
+                
+                response = await fetch("/move?data=" + cmd) 
+                
                 console.log("MI MUOVOOOOOOOOOOO")  
             })
-
+            
             document.addEventListener("keyup", async (e) =>{
+                if(e.key in keyPressed){
+                    keyPressed[e.key] = false
+                }
                 response = await fetch("/api/v1/stopMotors")  
                 console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")  
             })
@@ -31,12 +94,17 @@
                 b.addEventListener("mousedown", async () => {
                     response = await fetch("/move?data=" + b.value)  
                     console.log("MI MUOVOOOOOOOOOOO")  
+                    const id = dirMap[b.value]
+                    if (id) document.getElementById(id).classList.add("active");
                 })
                 
                 b.addEventListener("mouseup", async () => {
                     response = await fetch("/api/v1/stopMotors")  
-                    console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")  
+                    console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")
+                    const id = dirMap[b.value]
+                    if (id) document.getElementById(id).classList.remove("active");
                 })
+
             });
 
             async function getSensors() {
@@ -54,6 +122,14 @@
             }
 
             // setInterval(getSensors, 1000);
+
+            document.getElementById("sendDbCommand").addEventListener("click", async () => {
+                const cmd = document.getElementById("dbCommand").value
+                if(cmd.trim() === "") return
+
+                await fetch("/api/v1/dbCommand?cmd=" + cmd)
+                console.log("COMANDO DB INVIATO:", cmd)
+            })
         </script>
     </body>
 </html>
