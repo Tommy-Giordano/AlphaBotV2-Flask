@@ -42,7 +42,11 @@
                 "s" : false,
                 "a" : false,
                 "d" : false,
+                "q" : false,
+                "e" : false
             }
+
+            stopped = false
 
             function getKeyPressed(){
                 cmd = ""
@@ -75,8 +79,11 @@
                 }
                 
                 cmd = getKeyPressed()
-                
+                console.log("FRAAAAAAAAAAAAAAAA: /move?data=" + cmd)
                 response = await fetch("/move?data=" + cmd) 
+                if(cmd != ""){
+                    stopped = false
+                }
                 
                 console.log("MI MUOVOOOOOOOOOOO")  
             })
@@ -85,6 +92,7 @@
                 if(e.key in keyPressed){
                     keyPressed[e.key] = false
                 }
+                stopped = true
                 response = await fetch("/api/v1/stopMotors")  
                 console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")  
             })
@@ -119,6 +127,13 @@
                 dataSensors.innerHTML = ""
                 dataSensors.appendChild(left)
                 dataSensors.appendChild(right)
+            }
+
+            async function stopAll() {
+                if(getKeyPressed() == "" && !stopped){
+                    response = await fetch("/api/v1/stopMotors")  
+                    console.log("STOOOPPPPPPPP forzato")  
+                } 
             }
 
             // setInterval(getSensors, 1000);
