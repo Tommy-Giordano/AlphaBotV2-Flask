@@ -37,7 +37,7 @@
                 d: "dir-right"
             };
 
-            keyPressed = {
+            let keyPressed = {
                 "w" : false,
                 "s" : false,
                 "a" : false,
@@ -46,11 +46,12 @@
                 "e" : false
             }
 
-            stopped = false
+            let stopped = false
+            let lastcmd = ""
 
             function getKeyPressed(){
-                cmd = ""
-                for(k in keyPressed){
+                let cmd = ""
+                for(let k in keyPressed){
                     if(keyPressed[k])
                         cmd += k
                 }
@@ -70,37 +71,45 @@
             });
 
 
-            buttons = document.querySelectorAll("button")
-            dataSensors = document.querySelector(".dataSensors")
+            let buttons = document.querySelectorAll("button")
+            let dataSensors = document.querySelector(".dataSensors")
 
             document.addEventListener("keydown", async (e) =>{
                 if(e.key in keyPressed){
                     keyPressed[e.key] = true
                 }
+                let cmd = getKeyPressed()
                 
-                cmd = getKeyPressed()
-                console.log("FRAAAAAAAAAAAAAAAA: /move?data=" + cmd)
-                response = await fetch("/move?data=" + cmd) 
-                if(cmd != ""){
-                    stopped = false
+                console.log("command: "+ cmd + "Last: " + lastcmd);
+                if(cmd != lastcmd){
+                    console.log("fetching to: /move?data=" + cmd)
+                    let response = await fetch("/move?data=" + cmd) 
+                    if(cmd != ""){
+                        stopped = false
+                    }
+                    console.log("MI MUOVOOOOOOOOOOO")  
                 }
                 
-                console.log("MI MUOVOOOOOOOOOOO")  
+                lastcmd = cmd
             })
             
             document.addEventListener("keyup", async (e) =>{
+
                 if(e.key in keyPressed){
                     keyPressed[e.key] = false
                 }
-                stopped = true
-                response = await fetch("/api/v1/stopMotors")  
-                console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")  
+                if(getKeyPressed() == ""){
+                    stopped = true
+                    let response = await fetch("/api/v1/stopMotors")  
+                    console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")  
+                    lastcmd = ""
+                }
             })
 
 
             buttons.forEach(b => {
                 b.addEventListener("mousedown", async () => {
-                    response = await fetch("/move?data=" + b.value)  
+                    let response = await fetch("/move?data=" + b.value)  
                     console.log("MI MUOVOOOOOOOOOOO")  
                     const id = dirMap[b.value]
                     if (id) document.getElementById(id).classList.add("active");
@@ -116,13 +125,13 @@
             });
 
             async function getSensors() {
-                response = await fetch("/api/v1/sensors")
-                data = await response.json()
+                let response = await fetch("/api/v1/sensors")
+                let data = await response.json()
                 console.log('Sensori:', data);
                 
-                left = document.createElement("p")
+                let left = document.createElement("p")
                 left.textContent = "left: " + data.left
-                right = document.createElement("p")
+                let right = document.createElement("p")
                 right.textContent = "right: "+ data.right
                 dataSensors.innerHTML = ""
                 dataSensors.appendChild(left)
@@ -130,13 +139,14 @@
             }
 
             async function stopAll() {
+                console.log("Stopped: " + stopped)  
                 if(getKeyPressed() == "" && !stopped){
-                    response = await fetch("/api/v1/stopMotors")  
+                    let response = await fetch("/api/v1/stopMotors")  
                     console.log("STOOOPPPPPPPP forzato")  
                 } 
             }
 
-            // setInterval(getSensors, 1000);
+            setInterval(stopAll, 1000);
 
             document.getElementById("sendDbCommand").addEventListener("click", async () => {
                 const cmd = document.getElementById("dbCommand").value

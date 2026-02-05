@@ -335,7 +335,7 @@ class AlphaBot:
 			return
 				
 		print("im moving forward TO THE LEFT")
-		self.setMotor(-self.curvedSpeed[0], self.speed[1])
+		self.setMotor(-self.speed[0], self.curvedSpeed[1])
 		self.moving = True
 	
 	def forwardRight(self):
@@ -348,7 +348,7 @@ class AlphaBot:
 			return
 				
 		print("im moving forward TO THE RIGHT")
-		self.setMotor(-self.speed[0], self.curvedSpeed[1])
+		self.setMotor(-self.curvedSpeed[0], self.speed[1])
 		self.moving = True
 	
 	def backwardLeft(self):

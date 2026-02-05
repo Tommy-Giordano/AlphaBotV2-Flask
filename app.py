@@ -95,7 +95,7 @@ actions = ["w", "a", "s", "d", "wa", "wd", "sa", "sd", "q", "e", "stop", "r"]
 
 # 
 
-chill = True    
+chill = True        
 ab = None
 
     
@@ -140,23 +140,8 @@ def move():
         if data == state:
             return render_template("control.html")
         if data in actions:
-            print(data + data + data + data + data + data + data + data + data + data + data)
+            print("data: " + data)
             act = data
-        # if data == 'w':
-        #     print("wwwwwwwwwwwwwwwwwww")
-        #     act = "w"
-        # elif data == 's':
-        #     print("ssssssssssssssssssss")
-        #     act = "s"
-        # elif data == 'a':
-        #     print("aaaaaaaaaaaaaaaaaaaa")
-        #     act = "a"
-        # elif data == 'd':
-        #     print("dddddddddddddddddddd")
-        #     act = "d"
-        # elif data == 'stop':
-        #     print("STOPPPPPPPPPPPP")
-        #     act = "stop"
         else:
             print("Unknown")
     
