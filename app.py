@@ -127,23 +127,24 @@ def stopMotors():
     actt = requestDB("robot.db", act)
     getattr(ab, actt[0])()  
     state = act
-    return render_template("control.html")
+    return "stopped"
 
 
 @app.route("/move")
 def move():
     global state
     data = request.args.get("data")
-    print("DAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + data)
+    print("input: " + data)
     act = "stop"
     if data:
         if data == state:
-            return render_template("control.html")
+            return "nothing"
         if data in actions:
             print("data: " + data)
             act = data
         else:
             print("Unknown")
+            return "Unkown input"
     
     nextActions = requestDB("robot.db", act)
     for i in range(0, len(nextActions), 2):
@@ -154,7 +155,7 @@ def move():
         else:
             getattr(ab,nact)(float(params))
     state = act
-    return render_template("control.html")
+    return "moved"
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0')

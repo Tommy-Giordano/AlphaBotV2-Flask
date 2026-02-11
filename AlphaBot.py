@@ -293,10 +293,8 @@ class AlphaBot:
 		if not self.canMoveForward:
 			self.stop()
 			return
-		if self.moving:
-			return
-		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
-			return
+		# if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
+		# 	return
 				
 		print("im moving forward")
 		self.setMotor(-self.speed[0], self.speed[1])
@@ -329,10 +327,8 @@ class AlphaBot:
 		if not self.canMoveForward:
 			self.stop()
 			return
-		if self.moving:
-			return
-		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
-			return
+		# if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
+		# 	return
 				
 		print("im moving forward TO THE LEFT")
 		self.setMotor(-self.speed[0], self.curvedSpeed[1])
@@ -342,10 +338,8 @@ class AlphaBot:
 		if not self.canMoveForward:
 			self.stop()
 			return
-		if self.moving:
-			return
-		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
-			return
+		# if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
+		# 	return
 				
 		print("im moving forward TO THE RIGHT")
 		self.setMotor(-self.curvedSpeed[0], self.speed[1])

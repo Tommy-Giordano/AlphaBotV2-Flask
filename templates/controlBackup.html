@@ -74,33 +74,23 @@
             let buttons = document.querySelectorAll("button")
             let dataSensors = document.querySelector(".dataSensors")
 
-
-            async function moveMotor(){
-                let cmd = getKeyPressed()
-
-                if(cmd == ""){
-                    stopped = true
-                    let response = await fetch("/api/v1/stopMotors")  
-                    console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")  
-                    lastcmd = ""
-                    return;
-                }
-
-                if(cmd != lastcmd){
-                    console.log("fetching to: /move?data=" + cmd)
-                    let response = await fetch("/move?data=" + cmd) 
-                    console.log("MI MUOVOOOOOOOOOOO")  
-                }
-                
-                lastcmd = cmd
-            }
-
             document.addEventListener("keydown", async (e) =>{
                 if(e.key in keyPressed){
                     keyPressed[e.key] = true
                 }
+                let cmd = getKeyPressed()
                 
-                await moveMotor()
+                console.log("command: "+ cmd + "Last: " + lastcmd);
+                if(cmd != lastcmd){
+                    console.log("fetching to: /move?data=" + cmd)
+                    let response = await fetch("/move?data=" + cmd) 
+                    if(cmd != ""){
+                        stopped = false
+                    }
+                    console.log("MI MUOVOOOOOOOOOOO")  
+                }
+                
+                lastcmd = cmd
             })
             
             document.addEventListener("keyup", async (e) =>{
@@ -108,9 +98,12 @@
                 if(e.key in keyPressed){
                     keyPressed[e.key] = false
                 }
-
-                await moveMotor()
-
+                if(getKeyPressed() == ""){
+                    stopped = true
+                    let response = await fetch("/api/v1/stopMotors")  
+                    console.log("STOOOOOOOOOOOOOOOPPPPPPPPPPPPPP")  
+                    lastcmd = ""
+                }
             })
 
 
