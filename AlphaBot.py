@@ -474,10 +474,10 @@ class ChillBot(object):
 		if not self.canMoveForward:
 			self.stop()
 			return
-		if self.moving:
-			return
-		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
-			return
+		# if self.moving:
+		# 	return
+		# if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
+		# 	return
 				
 		print("im moving forward")
 		self.setMotor(self.speed[0], self.speed[1])
@@ -510,10 +510,10 @@ class ChillBot(object):
 		if not self.canMoveForward:
 			self.stop()
 			return
-		if self.moving:
-			return
-		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
-			return
+		# if self.moving:
+		# 	return
+		# if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
+		# 	return
 				
 		print("im moving forward TO THE LEFT")
 		self.setMotor(self.curvedSpeed[0], self.speed[1])
@@ -523,10 +523,10 @@ class ChillBot(object):
 		if not self.canMoveForward:
 			self.stop()
 			return
-		if self.moving:
-			return
-		if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
-			return
+		# if self.moving:
+		# 	return
+		# if self.getSensors()[0] == 0 or self.getSensors()[1] == 0:
+		# 	return
 				
 		print("im moving forward TO THE RIGHT")
 		self.setMotor(self.speed[0], self.curvedSpeed[1])
@@ -577,4 +577,4 @@ class ChillBot(object):
 		self.speed[0] = max(0, min(100, self.speed[0]))
 		self.speed[1] = max(0, min(100, self.speed[1]))
 
-		self.curvedSpeed = [self.speed[0] * 0.75, self.speed[1] * 0.75]
+		self.curvedSpeed = [self.speed[0] * 0.10, self.speed[1] * 0.10]

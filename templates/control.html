@@ -55,7 +55,7 @@
                     if(keyPressed[k])
                         cmd += k
                 }
-                console.log(cmd)
+                // console.log(cmd)
                 return cmd
             }
 
@@ -146,7 +146,7 @@
             }
 
             async function stopAll() {
-                console.log("Stopped: " + stopped)  
+                // console.log("keys: " + getKeyPressed() + "stopped: "  + !stopped + "cond: " + getKeyPressed() == "" && !stopped)  
                 if(getKeyPressed() == "" && !stopped){
                     let response = await fetch("/api/v1/stopMotors")  
                     console.log("STOOOPPPPPPPP forzato")  
