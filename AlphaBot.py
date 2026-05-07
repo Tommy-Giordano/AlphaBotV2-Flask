@@ -390,7 +390,7 @@ class AlphaBot:
 		self.speed[0] = max(0, min(100, self.speed[0]))
 		self.speed[1] = max(0, min(100, self.speed[1]))
 
-		self.curvedSpeed = [self.speed[0] * 0.75, self.speed[1] * 0.75]
+		self.curvedSpeed = [self.speed[0] * 0.67, self.speed[1] * 0.67]
 class ChillBot(object):
 	
 	# def __init__(self,in1=7,in2=16,ena=8,in3=14,in4=15,enb=18):
